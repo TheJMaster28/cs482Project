@@ -53,6 +53,6 @@ create table play
    (PlayerID		integer,
 	GameID			integer,
 	primary key 	(PlayerID, GameID),
-	foreign key 	(PlayerID) references players(PlayerID),
-	foreign key 	(GameID) references games(GameID)
+	foreign key 	(PlayerID) references players(PlayerID) on delete cascade,
+	foreign key 	(GameID) references games(GameID) on delete cascade
    );
