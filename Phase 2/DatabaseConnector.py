@@ -6,8 +6,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host="cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com",
     # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-    user="admin",
-    passwd="database123",
+    user="",
+    passwd="",
     database="csproject"
 )
 
@@ -34,8 +34,8 @@ def singleInsertPlayers( id, firstName, lastName, teamId, position, touchdowns, 
         mydb = mysql.connector.connect(
             host="cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com",
             # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-            user="admin",
-            passwd="database123",
+            user="",
+            passwd="",
             database="csproject"
         )
 
@@ -68,8 +68,8 @@ def loadDataInsertPlayers( filePath ):
         mydb = mysql.connector.connect(
             host="cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com",
             # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-            user="admin",
-            passwd="database123",
+            user="",
+            passwd="",
             database="csproject"
         )
         
@@ -88,11 +88,8 @@ def loadDataInsertPlayers( filePath ):
 
 
 
-singleInsertPlayers( 1994, 'Billy', 'Bob', 110011, 'RB', 20, 2000, 785000)
-
-
 #path = input("Enter file path: ")
-loadDataInsertPlayers("players.csv")
+loadDataInsertPlayers("players.txt")
 
 
         
