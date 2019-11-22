@@ -5,7 +5,6 @@
 import mysql.connector
 import pymysql
 import csv
-import getpass
 
 
 user = ""
@@ -39,19 +38,19 @@ database = ""
 # mydb.close()
 
 
-def GetUserInfo():
+def GetUserInfo(h, u, p, d):
     global user
     global pswd
     global database
     global host
 
-    host = input("Host: ")
+    host = h
 
-    user = input("User: ")
+    user = u
 
-    pswd = getpass.getpass("Password: ")
+    pswd = p
 
-    database = input("DataBase: ")
+    database = d
 
 
 # TEMPORARY FUNCTION - just used to delete the players/teams in the txt file for re-inserting tests
