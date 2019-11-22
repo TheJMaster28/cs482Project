@@ -1,19 +1,27 @@
 import tkinter as tk
-#import DatabaseConnector.py
+import DatabaseConnector as db
 import HelloWorld as hw
-
-
 m = tk.Tk()
 
-button = tk.Button(m, text="Hello World", width=25, command=hw.Hello)
-button.pack()
+
+def app():
+    global m
+
+    tk.Label(m, text="Path to File for insert").grid(row=0)
+    insert = tk.Entry(m)
+    insert.grid(row=0, column=1)
+
+    def doInsert():
+        db.singlePlayersInsert(insert.get())
+
+    button = tk.Button(m, text="Submit", command=doInsert)
+    button.grid(row=0, column=2)
+
+
+if (db.user == ""):
+    print("here")
+    db.GetUserInfo()
+    app()
+
 
 m.mainloop()
-
-
-# import tkinter as tk
-# r = tk.Tk()
-# r.title('Counting Seconds')
-# button = tk.Button(r, text='Stop', width=25, command=r.destroy)
-# button.pack()
-# r.mainloop()

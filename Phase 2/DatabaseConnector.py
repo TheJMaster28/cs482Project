@@ -1,39 +1,57 @@
 # Link to installing mysql for python https://www.w3schools.com/python/python_mysql_getstarted.asp
 # Link to simple select statement in python https://www.w3schools.com/python/python_mysql_select.asp
 # Link to download pymysql must pip both versions listed here -> https://pymysql.readthedocs.io/en/latest/user/installation.html
+# remote host: cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com
 import mysql.connector
 import pymysql
 import csv
 import getpass
 
 
-user = input("User: ")
+user = ""
 
-pswd = getpass.getpass("Password: ")
+host = ""
 
-database = input("DataBase: ")
+pswd = ""
 
-mydb = mysql.connector.connect(
-    host="cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com",
-    # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-    user=user,
-    passwd=pswd,
-    database=database
-)
+database = ""
 
-mycursor = mydb.cursor()
+# mydb = mysql.connector.connect(
+#     host="cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com",
+#     # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
+#     user=user,
+#     passwd=pswd,
+#     database=database
+# )
 
-mycursor.execute("SELECT * from players")
+# mycursor = mydb.cursor()
 
-myresult = mycursor.fetchall()
+# mycursor.execute("SELECT * from players")
 
-print(myresult[0])
+# myresult = mycursor.fetchall()
 
-for x in myresult:
-    print(x)
+# print(myresult[0])
 
-mycursor.close()
-mydb.close()
+# for x in myresult:
+#     print(x)
+
+# mycursor.close()
+# mydb.close()
+
+
+def GetUserInfo():
+    global user
+    global pswd
+    global database
+    global host
+
+    host = input("Host: ")
+
+    user = input("User: ")
+
+    pswd = getpass.getpass("Password: ")
+
+    database = input("DataBase: ")
 
 
 # TEMPORARY FUNCTION - just used to delete the players/teams in the txt file for re-inserting tests
@@ -63,12 +81,17 @@ def delete():
 # singlePlayerInsert
 # takes in the file and reads the lines then inserts each one individually
 def singlePlayersInsert(path):
+    global host
+    global user
+    global pswd
+    global database
+
     try:
-        db = pymysql.connect('cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com',
+        db = pymysql.connect(host,
                              # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-                             '',
-                             '',
-                             '',
+                             user,
+                             pswd,
+                             database,
                              local_infile=True)
         mycursor = db.cursor()
         with open(path, mode='r') as csv_file:
@@ -95,12 +118,16 @@ def singlePlayersInsert(path):
 # multInsert
 # inserts multiple lines at once in to a given table
 def multInsert(path, table):
+    global host
+    global user
+    global pswd
+    global database
     try:
-        db = pymysql.connect('cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com',
+        db = pymysql.connect(host,
                              # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-                             '',
-                             '',
-                             '',
+                             user,
+                             pswd,
+                             database,
                              local_infile=True)
         mycursor = db.cursor()
         with open(path, mode='r') as csv_file:
@@ -127,12 +154,16 @@ def multInsert(path, table):
 # loadData function
 # loads data for any table and inserts
 def loadData(path, table):
+    global host
+    global user
+    global pswd
+    global database
     try:
-        db = pymysql.connect('cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com',
+        db = pymysql.connect(host,
                              # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-                             '',
-                             '',
-                             '',
+                             user,
+                             pswd,
+                             database,
                              local_infile=True)
         mycursor = db.cursor()
 
