@@ -179,3 +179,87 @@ def loadData(path, table):
     mycursor.close()
     db.close()
 # end of loadDataPlayers
+
+# deleteTableData
+# deletes all the data in a table
+def deleteTableData( table ):
+    global host
+    global user
+    global pswd
+    global database
+    try:
+        db = pymysql.connect(host,
+                             # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
+                             user,
+                             pswd,
+                             database,
+                             local_infile=True)
+        mycursor = db.cursor()
+
+        mycursor.execute("DELETE FROM %s" % table)
+        db.commit()
+        
+    except pymysql.InternalError as error:
+        print("Failed to insert into MySql table{}".format(error))
+    mycursor.close()
+    db.close()
+## end of deleteTableData
+
+
+## average function
+## this gives the average of a column in a table. We can assume the column is all integers
+def average( table, column ):
+    global host
+    global user
+    global pswd
+    global database
+    try:
+        db = pymysql.connect(host,
+                             # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
+                             user,
+                             pswd,
+                             database,
+                             local_infile=True)
+        mycursor = db.cursor()
+        
+        mycursor.execute("SELECT avg(%s) from %s" % (column, table))
+        db.commit()
+        myresult = mycursor.fetchall()
+        string = str(myresult[0])
+        value = string[10:(len(string)-4)]
+        return value
+        
+    except pymysql.InternalError as error:
+        print("Failed to insert into MySql table{}".format(error))
+    mycursor.close()
+    db.close()
+## end of average
+
+    ## selectDisplay
+## takes in a table name and displays data
+def selectDisplay( table ):
+    global host
+    global user
+    global pswd
+    global database
+    try:
+        db = pymysql.connect(host,
+                             # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
+                             user,
+                             pswd,
+                             database,
+                             local_infile=True)
+        mycursor= db.cursor()
+
+        print("SELECT * from %s" % table)
+        mycursor.execute("SELECT * from %s" % table)
+        db.commit()
+        myresult = mycursor.fetchall()
+
+        ## Need to fiqure out how to display this on our GUI interface
+
+    except pymysql.InternalError as error:
+        print("Failed to insert into MySql table{}".format(error))
+    mycursor.close()
+    db.close()
+## end of select display
