@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.scrolledtext import ScrolledText
 import DatabaseConnector as db
 import HelloWorld as hw
 m = tk.Tk()
@@ -16,50 +17,51 @@ def toString(string):
 
 def app():
     global m
-    tk.Label(m, text="Path to File for Single Insert").grid(row=0)
-    insert = tk.Entry(m)
+    frame1 = tk.Frame(m).grid()
+    tk.Label(frame1, text="Path to File for Single Insert").grid(row=0)
+    insert = tk.Entry(frame1)
     insert.grid(row=0, column=1)
 
     def doInsert():
         db.singlePlayersInsert(insert.get())
 
-    button = tk.Button(m, text="Submit", command=doInsert)
+    button = tk.Button(frame1, text="Submit", command=doInsert)
     button.grid(row=0, column=2)
 
     # ---------------------------------------------------------------
 
     tk.Label(m, text="Path to File for Multi Insert").grid(row=1)
-    Minsert = tk.Entry(m)
+    Minsert = tk.Entry(frame1)
     Minsert.grid(row=1, column=1)
-    Mtable = tk.Entry(m)
-    tk.Label(m, text="Table to insert to").grid(row=1, column=2)
+    Mtable = tk.Entry(frame1)
+    tk.Label(frame1, text="Table to insert to").grid(row=1, column=2)
     Mtable.grid(row=1, column=3)
 
     def doMInsert():
         db.multInsert(Minsert.get(), Mtable.get())
 
-    button = tk.Button(m, text="Submit", command=doMInsert)
+    button = tk.Button(frame1, text="Submit", command=doMInsert)
     button.grid(row=1, column=4)
 
     # ----------------------------------------------------------------
 
     tk.Label(m, text="Path to File for Load Data Insert").grid(row=2)
-    Linsert = tk.Entry(m)
+    Linsert = tk.Entry(frame1)
     Linsert.grid(row=2, column=1)
     Ltable = tk.Entry(m)
-    tk.Label(m, text="Table to insert to").grid(row=2, column=2)
+    tk.Label(frame1, text="Table to insert to").grid(row=2, column=2)
     Ltable.grid(row=2, column=3)
 
     def doLInsert():
         db.loadData(Minsert.get(), Ltable.get())
 
-    button = tk.Button(m, text="Submit", command=doLInsert)
+    button = tk.Button(frame1, text="Submit", command=doLInsert)
     button.grid(row=2, column=4)
 
     # ----------------------------------------------------------------
 
-    tk.Label(m, text="Table to be deleted").grid(row=3)
-    Dinsert = tk.Entry(m)
+    tk.Label(frame1, text="Table to be deleted").grid(row=3)
+    Dinsert = tk.Entry(frame1)
     Dinsert.grid(row=3, column=1)
 
     def doDInsert():
@@ -70,11 +72,11 @@ def app():
 
     # ----------------------------------------------------------------
 
-    tk.Label(m, text="Table to get Averge from").grid(row=4)
-    Ainsert = tk.Entry(m)
+    tk.Label(frame1, text="Table to get Averge from").grid(row=4)
+    Ainsert = tk.Entry(frame1)
     Ainsert.grid(row=4, column=1)
-    Acol = tk.Entry(m)
-    tk.Label(m, text="Column of the table to get Averge from").grid(
+    Acol = tk.Entry(frame1)
+    tk.Label(frame1, text="Column of the table to get Averge from").grid(
         row=4, column=2)
     Acol.grid(row=4, column=3)
 
@@ -82,23 +84,30 @@ def app():
         average = db.average(Ainsert.get(), Acol.get())
         tk.Label(m, text=average).grid(row=4, column=5)
 
-    button = tk.Button(m, text="Submit", command=doAInsert)
+    button = tk.Button(frame1, text="Submit", command=doAInsert)
     button.grid(row=4, column=4)
 
     # ----------------------------------------------------------------
 
-    tk.Label(m, text="Show Table").grid(row=5)
-    Stable = tk.Entry(m)
+    tk.Label(frame1, text="Show Table").grid(row=5)
+    Stable = tk.Entry(frame1)
     Stable.grid(row=5, column=1)
 
     def doSInsert():
+
         select = toString(db.selectDisplay(Stable.get()))
         print(select)
         m2 = tk.Tk()
-        tk.Label(m2, text=select).pack()
 
-    button = tk.Button(m, text="Submit", command=doSInsert)
-    button.grid(row=5, column=4)
+        frame3 = tk.Frame(m2)
+        text = ScrolledText(frame3)
+
+        text.insert(tk.END, select)
+        frame3.grid(row=1)
+        text.grid()
+
+    button = tk.Button(frame1, text="Submit", command=doSInsert)
+    button.grid(row=5, column=2)
 
 
 frame = tk.Frame(m)
