@@ -171,6 +171,7 @@ def loadData(path, table):
         db.commit()
         loadDataInsert = """LOAD DATA LOCAL INFILE '%s' INTO TABLE %s FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'"""
         insertTuple = (path, table)
+        print(insertTuple)
         mycursor.execute(loadDataInsert % insertTuple)
         db.commit()
 
@@ -182,7 +183,9 @@ def loadData(path, table):
 
 # deleteTableData
 # deletes all the data in a table
-def deleteTableData( table ):
+
+
+def deleteTableData(table):
     global host
     global user
     global pswd
@@ -197,18 +200,19 @@ def deleteTableData( table ):
         mycursor = db.cursor()
 
         mycursor.execute("DELETE FROM %s" % table)
+        print("Deleted")
         db.commit()
-        
+
     except pymysql.InternalError as error:
         print("Failed to insert into MySql table{}".format(error))
     mycursor.close()
     db.close()
-## end of deleteTableData
+# end of deleteTableData
 
 
-## average function
-## this gives the average of a column in a table. We can assume the column is all integers
-def average( table, column ):
+# average function
+# this gives the average of a column in a table. We can assume the column is all integers
+def average(table, column):
     global host
     global user
     global pswd
@@ -221,23 +225,25 @@ def average( table, column ):
                              database,
                              local_infile=True)
         mycursor = db.cursor()
-        
+
         mycursor.execute("SELECT avg(%s) from %s" % (column, table))
         db.commit()
         myresult = mycursor.fetchall()
         string = str(myresult[0])
         value = string[10:(len(string)-4)]
         return value
-        
+
     except pymysql.InternalError as error:
         print("Failed to insert into MySql table{}".format(error))
     mycursor.close()
     db.close()
-## end of average
+# end of average
 
-    ## selectDisplay
-## takes in a table name and displays data
-def selectDisplay( table ):
+    # selectDisplay
+# takes in a table name and displays data
+
+
+def selectDisplay(table):
     global host
     global user
     global pswd
@@ -249,17 +255,19 @@ def selectDisplay( table ):
                              pswd,
                              database,
                              local_infile=True)
-        mycursor= db.cursor()
+        mycursor = db.cursor()
 
         print("SELECT * from %s" % table)
         mycursor.execute("SELECT * from %s" % table)
         db.commit()
         myresult = mycursor.fetchall()
 
-        ## Need to fiqure out how to display this on our GUI interface
+        print(myresult)
+        # Need to fiqure out how to display this on our GUI interface
+        return myresult
 
     except pymysql.InternalError as error:
         print("Failed to insert into MySql table{}".format(error))
     mycursor.close()
     db.close()
-## end of select display
+# end of select display

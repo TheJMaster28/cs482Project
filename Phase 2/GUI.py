@@ -4,6 +4,16 @@ import HelloWorld as hw
 m = tk.Tk()
 
 
+def toString(string):
+    s = ""
+    for i in string:
+        for k in i:
+            s += str(k)
+            s += ", "
+        s += "\n"
+    return s
+
+
 def app():
     global m
     tk.Label(m, text="Path to File for Single Insert").grid(row=0)
@@ -30,6 +40,65 @@ def app():
 
     button = tk.Button(m, text="Submit", command=doMInsert)
     button.grid(row=1, column=4)
+
+    # ----------------------------------------------------------------
+
+    tk.Label(m, text="Path to File for Load Data Insert").grid(row=2)
+    Linsert = tk.Entry(m)
+    Linsert.grid(row=2, column=1)
+    Ltable = tk.Entry(m)
+    tk.Label(m, text="Table to insert to").grid(row=2, column=2)
+    Ltable.grid(row=2, column=3)
+
+    def doLInsert():
+        db.loadData(Minsert.get(), Ltable.get())
+
+    button = tk.Button(m, text="Submit", command=doLInsert)
+    button.grid(row=2, column=4)
+
+    # ----------------------------------------------------------------
+
+    tk.Label(m, text="Table to be deleted").grid(row=3)
+    Dinsert = tk.Entry(m)
+    Dinsert.grid(row=3, column=1)
+
+    def doDInsert():
+        db.deleteTableData(Dinsert.get())
+
+    button = tk.Button(m, text="Delete", command=doDInsert)
+    button.grid(row=3, column=2)
+
+    # ----------------------------------------------------------------
+
+    tk.Label(m, text="Table to get Averge from").grid(row=4)
+    Ainsert = tk.Entry(m)
+    Ainsert.grid(row=4, column=1)
+    Acol = tk.Entry(m)
+    tk.Label(m, text="Column of the table to get Averge from").grid(
+        row=4, column=2)
+    Acol.grid(row=4, column=3)
+
+    def doAInsert():
+        average = db.average(Ainsert.get(), Acol.get())
+        tk.Label(m, text=average).grid(row=4, column=5)
+
+    button = tk.Button(m, text="Submit", command=doAInsert)
+    button.grid(row=4, column=4)
+
+    # ----------------------------------------------------------------
+
+    tk.Label(m, text="Show Table").grid(row=5)
+    Stable = tk.Entry(m)
+    Stable.grid(row=5, column=1)
+
+    def doSInsert():
+        select = toString(db.selectDisplay(Stable.get()))
+        print(select)
+        m2 = tk.Tk()
+        tk.Label(m2, text=select).pack()
+
+    button = tk.Button(m, text="Submit", command=doSInsert)
+    button.grid(row=5, column=4)
 
 
 frame = tk.Frame(m)
