@@ -2,14 +2,12 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 from tkinter import filedialog
 import DatabaseConnector as db
-import HelloWorld as hw
+#import HelloWorld as hw
 
 m = tk.Tk()
 
 # toString
 # creates string from lists that is return from select * SQL query
-
-
 def toString(string):
     s = ""
     for i in string:
@@ -33,92 +31,140 @@ def app():
         Entry.insert(10, tk.filename)
 
     frame1 = tk.Frame(m).grid()
-    tk.Label(frame1, text="Path to File for Single Insert").grid(row=0)
-    insert = tk.Entry(frame1)
-    insert.grid(row=0, column=1)
+    tk.Label(frame1, text="Path to File for Single Insert Players Table").grid(row=0)
+    Player_insert = tk.Entry(frame1)
+    Player_insert.grid(row=0, column=1)
 
-    def doInsert():
-        db.singlePlayersInsert(insert.get())
+    def doPlayersInsert():
+        db.singlePlayersInsert(Player_insert.get())
 
     button = tk.Button(m, text="Select File",
-                       command=lambda: fileSearch(insert))
+                       command=lambda: fileSearch(Player_insert))
     button.grid(row=0, column=2)
 
-    button = tk.Button(frame1, text="Submit", command=doInsert)
+    button = tk.Button(frame1, text="Submit", command=doPlayersInsert)
     button.grid(row=0, column=3)
+
+    #----------------------------------------------------------------
+
+    tk.Label(frame1, text="Path to File for Single Insert Teams Table").grid(row=1)
+    Teams_insert = tk.Entry(frame1)
+    Teams_insert.grid(row=1, column=1)
+
+    def doTeamsInsert():
+        db.singleTeamsInsert(Teams_insert.get())
+
+    button = tk.Button(m, text="Select File",
+                       command=lambda: fileSearch(Teams_insert))
+    button.grid(row=1, column=2)
+
+    button = tk.Button(frame1, text="Submit", command=doTeamsInsert)
+    button.grid(row=1, column=3)
 
     # ---------------------------------------------------------------
 
-    tk.Label(m, text="Path to File for Multi Insert").grid(row=1)
+    tk.Label(frame1, text="Path to File for Single Insert Games Table").grid(row=2)
+    Games_insert = tk.Entry(frame1)
+    Games_insert.grid(row=2, column=1)
+
+    def doGamesInsert():
+        db.singleGamesInsert(Games_insert.get())
+
+    button = tk.Button(m, text="Select File",
+                       command=lambda: fileSearch(Games_insert))
+    button.grid(row=2, column=2)
+
+    button = tk.Button(frame1, text="Submit", command=doGamesInsert)
+    button.grid(row=2, column=3)
+
+    # ---------------------------------------------------------------
+
+    tk.Label(frame1, text="Path to File for Single Insert Play Table").grid(row=3)
+    Play_insert = tk.Entry(frame1)
+    Play_insert.grid(row=3, column=1)
+
+    def doPlayInsert():
+        db.singlePlayInsert(Play_insert.get())
+
+    button = tk.Button(m, text="Select File",
+                       command=lambda: fileSearch(Play_insert))
+    button.grid(row=3, column=2)
+
+    button = tk.Button(frame1, text="Submit", command=doPlayInsert)
+    button.grid(row=3, column=3)
+
+    # ---------------------------------------------------------------
+
+    tk.Label(m, text="Path to File for Multi Insert").grid(row=4)
     Minsert = tk.Entry(frame1)
-    Minsert.grid(row=1, column=1)
+    Minsert.grid(row=4, column=1)
     Mtable = tk.Entry(frame1)
-    tk.Label(frame1, text="Table to insert to").grid(row=1, column=3)
-    Mtable.grid(row=1, column=4)
+    tk.Label(frame1, text="Table to insert to").grid(row=4, column=3)
+    Mtable.grid(row=4, column=4)
 
     def doMInsert():
         print(db.multInsert(Minsert.get(), Mtable.get()))
 
     button = tk.Button(m, text="Select File",
                        command=lambda: fileSearch(Minsert))
-    button.grid(row=1, column=2)
+    button.grid(row=4, column=2)
 
     button = tk.Button(frame1, text="Submit", command=doMInsert)
-    button.grid(row=1, column=5)
+    button.grid(row=4, column=5)
 
     # ----------------------------------------------------------------
 
-    tk.Label(m, text="Path to File for Load Data Insert").grid(row=2)
+    tk.Label(m, text="Path to File for Load Data Insert").grid(row=5)
     Linsert = tk.Entry(frame1)
-    Linsert.grid(row=2, column=1)
+    Linsert.grid(row=5, column=1)
     Ltable = tk.Entry(m)
-    tk.Label(frame1, text="Table to insert to").grid(row=2, column=3)
-    Ltable.grid(row=2, column=4)
+    tk.Label(frame1, text="Table to insert to").grid(row=5, column=3)
+    Ltable.grid(row=5, column=4)
 
     def doLInsert():
         db.loadData(Linsert.get(), Ltable.get())
 
     button = tk.Button(m, text="Select File",
                        command=lambda: fileSearch(Linsert))
-    button.grid(row=2, column=2)
+    button.grid(row=5, column=2)
 
     button = tk.Button(frame1, text="Submit", command=doLInsert)
-    button.grid(row=2, column=5)
+    button.grid(row=5, column=5)
 
     # ----------------------------------------------------------------
 
-    tk.Label(frame1, text="Table to be deleted").grid(row=3)
+    tk.Label(frame1, text="Table to be deleted").grid(row=6)
     Dinsert = tk.Entry(frame1)
-    Dinsert.grid(row=3, column=1)
+    Dinsert.grid(row=6, column=1)
 
     def doDInsert():
         db.deleteTableData(Dinsert.get())
 
     button = tk.Button(m, text="Delete", command=doDInsert)
-    button.grid(row=3, column=2)
+    button.grid(row=6, column=2)
 
     # ----------------------------------------------------------------
 
-    tk.Label(frame1, text="Table to get Averge from").grid(row=4)
+    tk.Label(frame1, text="Table to get Averge from").grid(row=7)
     Ainsert = tk.Entry(frame1)
-    Ainsert.grid(row=4, column=1)
+    Ainsert.grid(row=7, column=1)
     Acol = tk.Entry(frame1)
     tk.Label(frame1, text="Column of the table to get Averge from").grid(
-        row=4, column=2)
-    Acol.grid(row=4, column=3)
+        row=7, column=2)
+    Acol.grid(row=7, column=3)
 
     def doAInsert():
         average = db.average(Ainsert.get(), Acol.get())
-        tk.Label(m, text=average).grid(row=4, column=5)
+        tk.Label(m, text=average).grid(row=7, column=5)
 
     button = tk.Button(frame1, text="Submit", command=doAInsert)
-    button.grid(row=4, column=4)
+    button.grid(row=7, column=4)
 
     # ----------------------------------------------------------------
 
-    tk.Label(frame1, text="Show Table").grid(row=5)
+    tk.Label(frame1, text="Show Table").grid(row=8)
     Stable = tk.Entry(frame1)
-    Stable.grid(row=5, column=1)
+    Stable.grid(row=8, column=1)
 
     def doSInsert():
 
@@ -134,7 +180,7 @@ def app():
         text.grid()
 
     button = tk.Button(frame1, text="Submit", command=doSInsert)
-    button.grid(row=5, column=2)
+    button.grid(row=8, column=2)
 # end of app
 
 
