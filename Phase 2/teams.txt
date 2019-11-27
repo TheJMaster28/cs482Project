@@ -1,9 +1,0 @@
-123451,Steelers,Pittsburgh
-789101,Broncos,Denver
-111211,Texans,SanAntonio
-314151,Cowboys,Dallas
-110011,San Francisco,49ers
-220022,Detroit,Lions
-330033,San Francisco,49ers
-440044,Miami,Dolphins
-550055,Minnesota,Vikings
