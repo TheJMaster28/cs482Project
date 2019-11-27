@@ -16,8 +16,11 @@ pswd = ""
 
 database = ""
 
+# getUserInfo
+# logins into database with info
 
-def GetUserInfo(h, u, p, d):
+
+def getUserInfo(h, u, p, d):
     global user
     global pswd
     global database
@@ -30,10 +33,12 @@ def GetUserInfo(h, u, p, d):
     pswd = p
 
     database = d
-
+# end of getuserInfo
 
 # singlePlayerInsert
 # takes in the file and reads the lines then inserts each one individually
+
+
 def singlePlayersInsert(path):
     global host
     global user
@@ -192,6 +197,8 @@ def average(table, column):
 
 # selectDisplay
 # takes in a table name and displays data
+
+
 def selectDisplay(table):
     global host
     global user
@@ -216,4 +223,3 @@ def selectDisplay(table):
     mycursor.close()
     db.close()
 # end of select display
-

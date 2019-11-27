@@ -6,6 +6,9 @@ import HelloWorld as hw
 
 m = tk.Tk()
 
+# toString
+# creates string from lists that is return from select * SQL query
+
 
 def toString(string):
     s = ""
@@ -15,15 +18,20 @@ def toString(string):
             s += ", "
         s += "\n"
     return s
+# end of toString
 
 
+# app
+# main page of app
 def app():
     global m
 
-    def fileSearch( Entry ):
-        tk.filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
+    def fileSearch(Entry):
+        tk.filename = filedialog.askopenfilename(
+            initialdir="/", title="Select file", filetypes=(("text files", "*.txt"), ("all files", "*.*")))
+        Entry.delete(0, tk.END)
         Entry.insert(10, tk.filename)
-    
+
     frame1 = tk.Frame(m).grid()
     tk.Label(frame1, text="Path to File for Single Insert").grid(row=0)
     insert = tk.Entry(frame1)
@@ -32,7 +40,8 @@ def app():
     def doInsert():
         db.singlePlayersInsert(insert.get())
 
-    button = tk.Button(m, text="Select File", command= lambda: fileSearch(insert))
+    button = tk.Button(m, text="Select File",
+                       command=lambda: fileSearch(insert))
     button.grid(row=0, column=2)
 
     button = tk.Button(frame1, text="Submit", command=doInsert)
@@ -48,9 +57,10 @@ def app():
     Mtable.grid(row=1, column=4)
 
     def doMInsert():
-        db.multInsert(Minsert.get(), Mtable.get())
+        print(db.multInsert(Minsert.get(), Mtable.get()))
 
-    button = tk.Button(m, text="Select File", command= lambda: fileSearch(Minsert))
+    button = tk.Button(m, text="Select File",
+                       command=lambda: fileSearch(Minsert))
     button.grid(row=1, column=2)
 
     button = tk.Button(frame1, text="Submit", command=doMInsert)
@@ -66,9 +76,10 @@ def app():
     Ltable.grid(row=2, column=4)
 
     def doLInsert():
-        db.loadData(Minsert.get(), Ltable.get())
+        db.loadData(Linsert.get(), Ltable.get())
 
-    button = tk.Button(m, text="Select File", command= lambda: fileSearch(LDinsert))
+    button = tk.Button(m, text="Select File",
+                       command=lambda: fileSearch(Linsert))
     button.grid(row=2, column=2)
 
     button = tk.Button(frame1, text="Submit", command=doLInsert)
@@ -124,8 +135,10 @@ def app():
 
     button = tk.Button(frame1, text="Submit", command=doSInsert)
     button.grid(row=5, column=2)
+# end of app
 
 
+# login page to get database information
 frame = tk.Frame(m)
 frame.grid(row=1)
 host = tk.Entry(frame)
@@ -145,7 +158,7 @@ database.grid(row=4, column=2)
 
 
 def Login():
-    db.GetUserInfo(host.get(), user.get(), pswd.get(), database.get())
+    db.getUserInfo(host.get(), user.get(), pswd.get(), database.get())
     frame.grid_forget()
     app()
 
