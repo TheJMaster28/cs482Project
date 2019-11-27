@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
+from tkinter import filedialog
 import DatabaseConnector as db
 import HelloWorld as hw
+
 m = tk.Tk()
 
 
@@ -17,6 +19,11 @@ def toString(string):
 
 def app():
     global m
+
+    def fileSearch( Entry ):
+        tk.filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
+        Entry.insert(10, tk.filename)
+    
     frame1 = tk.Frame(m).grid()
     tk.Label(frame1, text="Path to File for Single Insert").grid(row=0)
     insert = tk.Entry(frame1)
@@ -25,8 +32,11 @@ def app():
     def doInsert():
         db.singlePlayersInsert(insert.get())
 
-    button = tk.Button(frame1, text="Submit", command=doInsert)
+    button = tk.Button(m, text="Select File", command= lambda: fileSearch(insert))
     button.grid(row=0, column=2)
+
+    button = tk.Button(frame1, text="Submit", command=doInsert)
+    button.grid(row=0, column=3)
 
     # ---------------------------------------------------------------
 
@@ -34,14 +44,17 @@ def app():
     Minsert = tk.Entry(frame1)
     Minsert.grid(row=1, column=1)
     Mtable = tk.Entry(frame1)
-    tk.Label(frame1, text="Table to insert to").grid(row=1, column=2)
-    Mtable.grid(row=1, column=3)
+    tk.Label(frame1, text="Table to insert to").grid(row=1, column=3)
+    Mtable.grid(row=1, column=4)
 
     def doMInsert():
         db.multInsert(Minsert.get(), Mtable.get())
 
+    button = tk.Button(m, text="Select File", command= lambda: fileSearch(Minsert))
+    button.grid(row=1, column=2)
+
     button = tk.Button(frame1, text="Submit", command=doMInsert)
-    button.grid(row=1, column=4)
+    button.grid(row=1, column=5)
 
     # ----------------------------------------------------------------
 
@@ -49,14 +62,17 @@ def app():
     Linsert = tk.Entry(frame1)
     Linsert.grid(row=2, column=1)
     Ltable = tk.Entry(m)
-    tk.Label(frame1, text="Table to insert to").grid(row=2, column=2)
-    Ltable.grid(row=2, column=3)
+    tk.Label(frame1, text="Table to insert to").grid(row=2, column=3)
+    Ltable.grid(row=2, column=4)
 
     def doLInsert():
         db.loadData(Minsert.get(), Ltable.get())
 
+    button = tk.Button(m, text="Select File", command= lambda: fileSearch(LDinsert))
+    button.grid(row=2, column=2)
+
     button = tk.Button(frame1, text="Submit", command=doLInsert)
-    button.grid(row=2, column=4)
+    button.grid(row=2, column=5)
 
     # ----------------------------------------------------------------
 

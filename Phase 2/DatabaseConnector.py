@@ -5,6 +5,7 @@
 import mysql.connector
 import pymysql
 import csv
+import time
 
 
 user = ""
@@ -14,28 +15,6 @@ host = ""
 pswd = ""
 
 database = ""
-
-# mydb = mysql.connector.connect(
-#     host="cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com",
-#     # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-#     user=user,
-#     passwd=pswd,
-#     database=database
-# )
-
-# mycursor = mydb.cursor()
-
-# mycursor.execute("SELECT * from players")
-
-# myresult = mycursor.fetchall()
-
-# print(myresult[0])
-
-# for x in myresult:
-#     print(x)
-
-# mycursor.close()
-# mydb.close()
 
 
 def GetUserInfo(h, u, p, d):
@@ -51,30 +30,6 @@ def GetUserInfo(h, u, p, d):
     pswd = p
 
     database = d
-
-
-# TEMPORARY FUNCTION - just used to delete the players/teams in the txt file for re-inserting tests
-def delete():
-    try:
-        db = pymysql.connect('cs482project.ct5cpbeyrttk.us-east-1.rds.amazonaws.com',
-                             # FILL IN VALUES, DO NOT PUSH INTO GITHUB PASSWORD AND USER
-                             '',
-                             '',
-                             '',
-                             local_infile=True)
-        mycursor = db.cursor()
-        delete = """DELETE FROM players WHERE PlayerID = 1 or PlayerID = 2 or PlayerID = 3 or PlayerID = 4 or PlayerID = 5"""
-        delete2 = """DELETE FROM teams WHERE TeamID = 123451 or TeamID = 789101 or TeamID = 111211 or TeamID = 314151"""
-        mycursor.execute(delete)
-        mycursor.execute(delete2)
-        db.commit()
-
-    except pymysql.InternalError as error:
-        print("Failed to insert into MySql table{}".format(error))
-
-    mycursor.close()
-    db.close()
-# end of delete
 
 
 # singlePlayerInsert
@@ -97,12 +52,9 @@ def singlePlayersInsert(path):
 
             csv_data = csv.reader(csv_file, delimiter=',')
             for row in csv_data:
-                print(row[1])
-                print(len(row))
                 sql_single_insert = """INSERT INTO players (PlayerID,FirsName,LastName,TeamID,Position,Touchdowns,TotalYards,Salary) VALUES (%s, '%s', '%s', %s, '%s', %s, %s, %s)"""
                 insert = sql_single_insert % (
                     row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
-                print(insert)
                 mycursor.execute(insert)
                 db.commit()
 
@@ -136,7 +88,6 @@ def multInsert(path, table):
             for row in csv_data:
                 list_tuples.append(tuple(row))
             values = ', '.join(map(str, list_tuples))
-            print(list_tuples)
             temp = "INSERT INTO %s VALUES {}" % table
             insert = temp.format(values)
             mycursor.execute(insert)
@@ -153,6 +104,7 @@ def multInsert(path, table):
 # loadData function
 # loads data for any table and inserts
 def loadData(path, table):
+    start_time = time.time()
     global host
     global user
     global pswd
@@ -171,7 +123,6 @@ def loadData(path, table):
         db.commit()
         loadDataInsert = """LOAD DATA LOCAL INFILE '%s' INTO TABLE %s FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'"""
         insertTuple = (path, table)
-        print(insertTuple)
         mycursor.execute(loadDataInsert % insertTuple)
         db.commit()
 
@@ -179,12 +130,13 @@ def loadData(path, table):
         print("Failed to insert into MySql table{}".format(error))
     mycursor.close()
     db.close()
+    end_time = time.time()
+    return end_time-start_time
 # end of loadDataPlayers
+
 
 # deleteTableData
 # deletes all the data in a table
-
-
 def deleteTableData(table):
     global host
     global user
@@ -200,7 +152,6 @@ def deleteTableData(table):
         mycursor = db.cursor()
 
         mycursor.execute("DELETE FROM %s" % table)
-        print("Deleted")
         db.commit()
 
     except pymysql.InternalError as error:
@@ -239,10 +190,8 @@ def average(table, column):
     db.close()
 # end of average
 
-    # selectDisplay
+# selectDisplay
 # takes in a table name and displays data
-
-
 def selectDisplay(table):
     global host
     global user
@@ -257,13 +206,9 @@ def selectDisplay(table):
                              local_infile=True)
         mycursor = db.cursor()
 
-        print("SELECT * from %s" % table)
         mycursor.execute("SELECT * from %s" % table)
         db.commit()
         myresult = mycursor.fetchall()
-
-        print(myresult)
-        # Need to fiqure out how to display this on our GUI interface
         return myresult
 
     except pymysql.InternalError as error:
@@ -271,3 +216,4 @@ def selectDisplay(table):
     mycursor.close()
     db.close()
 # end of select display
+
